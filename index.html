@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Maskandi Music Streaming App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #050608;
+      --accent: #f2b544;
+      --accent2: #ff7a3c;
+      --text-main: #ffffff;
+      --text-muted: #b8bcc5;
+      --card: #14161c;
+      --card-soft: #1c1f27;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: radial-gradient(circle at top, #1f2937 0%, #050608 45%, #000 100%);
+      font-family: "Poppins", sans-serif;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      overflow: hidden;
+      color: var(--text-main);
+    }
+
+    /* Background glow circles */
+    .glow {
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      background: radial-gradient(circle, rgba(242,181,68,0.28), transparent 70%);
+      border-radius: 50%;
+      filter: blur(3px);
+      animation: floatGlow 12s infinite ease-in-out alternate;
+    }
+    .glow:nth-child(1) { top: -40px; left: -60px; }
+    .glow:nth-child(2) { bottom: -70px; right: -60px; animation-delay: 4s; }
+    .glow:nth-child(3) { top: 30%; left: 60%; animation-delay: 8s; }
+
+    @keyframes floatGlow {
+      0% { transform: translate(0,0) scale(1); opacity: 0.55; }
+      50% { transform: translate(30px,-20px) scale(1.1); opacity: 0.85; }
+      100% { transform: translate(-20px,20px) scale(0.9); opacity: 0.4; }
+    }
+
+    /* Floating music notes */
+    .note {
+      position: absolute;
+      font-size: 20px;
+      opacity: 0.15;
+      animation: rise 14s infinite linear;
+      z-index: 0;
+    }
+    .note:nth-child(4) { left: 10%; bottom: -40px; }
+    .note:nth-child(5) { left: 40%; bottom: -60px; animation-delay: 3s; }
+    .note:nth-child(6) { left: 70%; bottom: -80px; animation-delay: 6s; }
+
+    @keyframes rise {
+      0%   { transform: translateY(0); opacity: 0; }
+      15%  { opacity: 0.25; }
+      60%  { opacity: 0.4; }
+      100% { transform: translateY(-100vh); opacity: 0; }
+    }
+
+    /* Main wrapper */
+    .wrapper {
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      padding: 30px;
+      width: 100%;
+      max-width: 500px;
+    }
+
+    /* Circle logo */
+    .logo-circle {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #ffe9b4, #f2b544, #6b3d0f);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 auto 22px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+      animation: softPulse 3s infinite ease-in-out;
+    }
+    @keyframes softPulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    .logo-circle span {
+      font-size: 42px;
+      font-weight: 700;
+      color: #2c1504;
+    }
+
+    h1 {
+      font-size: 1.9rem;
+      margin-bottom: 12px;
+      background: linear-gradient(to right, #ffe9b4, #f2b544, #ff7a3c);
+      -webkit-background-clip: text;
+      color: transparent;
+      font-weight: 700;
+    }
+
+    /* Playlist box */
+    .playlist-box {
+      margin-top: 22px;
+      background: var(--card);
+      padding: 16px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.06);
+      text-align: left;
+    }
+
+    .playlist-title {
+      font-size: 1rem;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    .track {
+      padding: 10px 12px;
+      margin-bottom: 8px;
+      background: var(--card-soft);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .track:hover {
+      background: rgba(242,181,68,0.15);
+    }
+    .track.active {
+      border: 1px solid var(--accent);
+      background: rgba(242,181,68,0.15);
+    }
+
+    /* Audio player (hidden except progress) */
+    .progress-bar {
+      width: 100%;
+      height: 6px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 999px;
+      margin-top: 10px;
+      overflow: hidden;
+    }
+    .progress {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #f2b544, #ff7a3c);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- GLOWS -->
+  <div class="glow"></div>
+  <div class="glow"></div>
+  <div class="glow"></div>
+
+  <!-- NOTES -->
+  <div class="note">♪</div>
+  <div class="note">♫</div>
+  <div class="note">♬</div>
+
+  <div class="wrapper">
+
+    <div class="logo-circle">
+      <span>M</span>
+    </div>
+
+    <h1>Maskandi Music Streaming App</h1>
+
+    <!-- Playlist -->
+    <div class="playlist-box">
+      <div class="playlist-title">Playlist</div>
+
+      <div class="track" onclick="playTrack(0)">Sigade Umzila</div>
+      <div class="track" onclick="playTrack(1)">Thatha Lento (feat. UMafikizolo)</div>
+      <div class="track" onclick="playTrack(2)">Uzophela Umcimbi</div>
+      <div class="track" onclick="playTrack(3)">Khuzani – Ithanda Mawala</div>
+      <div class="track" onclick="playTrack(4)">Khuzani – Umanikinikana</div>
+
+      <!-- Progress -->
+      <div class="progress-bar">
+        <div class="progress" id="progress"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <audio id="player"></audio>
+
+  <script>
+    const tracks = [
+      "https://raw.githubusercontent.com/creativeonlinebranding-png/Maskandi-Music/main/Sigade%20Umzila%20%5BxyNgiiqKTaY%5D.mp3",
+      "https://raw.githubusercontent.com/creativeonlinebranding-png/Maskandi-Music/main/Thatha%20lento%20(feat.%20UMafikizolo).mp3",
+      "https://raw.githubusercontent.com/creativeonlinebranding-png/Maskandi-Music/main/uMafikizolo-Uzophela%20Umcimbi.mp3",
+      "https://raw.githubusercontent.com/creativeonlinebranding-png/Maskandi-Music/main/vixenthedefinitivecollection.co.za%20-%20Khuzani%20-%20Ithanda%20Mawala.mp3",
+      "https://raw.githubusercontent.com/creativeonlinebranding-png/Maskandi-Music/main/vixenthedefinitivecollection.co.za%20-%20Khuzani%20-%20Umanikinikana%20(320%20KBps).mp3"
+    ];
+
+    const player = document.getElementById("player");
+    const progressBar = document.getElementById("progress");
+    const trackElements = document.querySelectorAll(".track");
+
+    function playTrack(index) {
+      player.src = tracks[index];
+      player.play();
+
+      trackElements.forEach(t => t.classList.remove("active"));
+      trackElements[index].classList.add("active");
+    }
+
+    player.addEventListener("timeupdate", () => {
+      if (player.duration) {
+        progressBar.style.width = (player.currentTime / player.duration) * 100 + "%";
+      }
+    });
+  </script>
+
+</body>
+</html>
